@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         mGame = new TicTacToeGame();
         startNewGame();
+        newGame();
     }
 
     private void startNewGame(){
@@ -88,5 +91,30 @@ public class MainActivity extends AppCompatActivity {
             mBoardButtons[location].setTextColor(Color.rgb(200, 0, 0));
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        super.onCreateOptionsMenu(menu);
+        menu.add("Menu Game");
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menu){
+        startNewGame();
+        return true;
+    }
+
+    public void newGame(){
+        Button newgame = (Button) findViewById(R.id.btn_start);
+        newgame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startNewGame();
+            }
+        });
+    }
+
+
 }
 

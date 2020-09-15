@@ -99,4 +99,11 @@
         android:text="INFO"
         android:textAlignment="center"
         ></TextView>
+    <Button
+        android:id="@+id/btn_start"
+        android:layout_height="@dimen/button_size"
+        android:layout_width="match_parent"
+        android:text="START"
+        android:textSize="@dimen/text_size"
+        ></Button>
 </LinearLayout>
