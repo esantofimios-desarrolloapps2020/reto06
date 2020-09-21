@@ -2,19 +2,26 @@ package com.example.tictactoe;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     /**
      * Game State
      */
+    static final int DIALOG_DIFFICULTY_ID = 0;
+    static final int DIALOG_QUIT_ID = 1;
     private TicTacToeGame mGame;
     private Button mBoardButtons[];
     private TextView mInfoTextView;
@@ -95,14 +102,53 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         super.onCreateOptionsMenu(menu);
-        menu.add("Menu Game");
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options_menu, menu);
+        return true;
+        // menu.add("Menu Game");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case R.id.new_game:
+                startNewGame();
+                return true;
+            case R.id.ai_difficulty:
+                showDialog(DIALOG_DIFFICULTY_ID);
+                return true;
+            case R.id.quit:
+                showDialog(DIALOG_QUIT_ID);
+                return true;
+        }
+        startNewGame();
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem menu){
-        startNewGame();
-        return true;
+    protected Dialog onCreateDialog(int id) {
+        Dialog dialog = null;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        switch (id){
+            case DIALOG_DIFFICULTY_ID:
+                builder.setTitle(R.string.difficulty_choose);
+
+                final CharSequence[] levels = {
+                    getResources().getString(R.string.difficulty_easy),
+                    getResources().getString(R.string.difficulty_harder),
+                    getResources().getString(R.string.difficulty_expert)
+                };
+            builder.setSingleChoiceItems(levels, selected, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                    Toast.makeText(getApplicationContext(), levels[i], Toast.LENGTH_SHORT).show();
+                }
+            });
+            dialog = builder.create();
+        }
+        return dialog;
     }
 
     public void newGame(){

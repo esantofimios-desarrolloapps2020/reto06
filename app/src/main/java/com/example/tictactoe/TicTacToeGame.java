@@ -1,11 +1,8 @@
 package com.example.tictactoe;
 import android.util.Log;
-import android.view.Menu;
 import android.widget.Button;
 
-import java.util.InputMismatchException;
 import java.util.Random;
-import java.util.Scanner;
 
 public class TicTacToeGame {
     //private char mBoard[] = {'1','2','3','4','5','6','7','8','9'};
@@ -14,6 +11,10 @@ public class TicTacToeGame {
     public static final char HUMAN_PLAYER = 'X';
     public static final char COMPUTER_PLAYER = 'O';
     public static final char OPEN_SPOT  = ' ';
+    // The computer´s difficult levels
+    public enum DifficultyLevel {Easy, Harder, Expert}
+    // Current Difficulty level
+    private DifficultyLevel mDifficultyLevel = DifficultyLevel.Expert;
 
     private Random mRand;
 
@@ -21,6 +22,14 @@ public class TicTacToeGame {
         mRand = new Random();
     }
         // Seed the random number generator
+
+    public DifficultyLevel getmDifficultyLevel(){
+        return mDifficultyLevel;
+    }
+
+    public void setmDifficultyLevel(DifficultyLevel difficultyLevel){
+        mDifficultyLevel = difficultyLevel;
+    }
 
     public void clearBoard(){
         //TODO
@@ -32,16 +41,16 @@ public class TicTacToeGame {
 
     public void setMove(char player, int location){
         Log.i("Details","Click");
+
     }
 
-    public int getComputerMove(Button mBoardButtons[])
-    {
-        //TODO
-        /**
-         * Return the best move for the computer to make
-         */
-        int move;
+    public int getRandomMove(Button mBoardButtons[]){
+        int move = mRand.nextInt(9 - 1 + 1) + 1;
+        return move -1;
+    }
 
+    public int getWinningMove(Button mBoardButtons[]){
+        int move;
         // First see if there's a move O can make to win
         for (int i = 0; i < BOARD_SIZE; i++) {
             if (!mBoardButtons[i].getText().equals(String.valueOf(HUMAN_PLAYER)) &&
@@ -83,6 +92,32 @@ public class TicTacToeGame {
         System.out.println("Computer is moving to " + (move + 1));
         mBoardButtons[move].setText(String.valueOf(COMPUTER_PLAYER));
         return 0;
+    }
+
+    public int getComputerMove(Button mBoardButtons[])
+    {
+        //TODO
+        /**
+         * Return the best move for the computer to make
+         */
+        int move = -1;
+
+        if(mDifficultyLevel == DifficultyLevel.Easy)
+            move = getRandomMove(mBoardButtons);
+        else if(mDifficultyLevel == DifficultyLevel.Harder){
+            move = getWinningMove(mBoardButtons);
+            if (move == -1)
+                move = getRandomMove(mBoardButtons);
+            }
+            else if(mDifficultyLevel == DifficultyLevel.Expert){
+                move = getWinningMove(mBoardButtons);
+                //if (move == -1){
+                //    move = getBlockingMove();
+                if (move == -1){
+                    move = getRandomMove(mBoardButtons);
+            }
+        }
+            return move;
     }
 
     public int checkForWinner(Button mBoardButtons[]) {
