@@ -39,9 +39,9 @@ public class TicTacToeGame {
         Log.i("Details","Click");
     }
 
-    public void setMove(char player, int location){
-
+    public boolean setMove(char player, int location){
         Log.i("Details","Click");
+        return true;
 
     }
 
@@ -205,6 +205,10 @@ public class TicTacToeGame {
         // If we make it through the previous loop, all places are taken, so it's a tie
         return 1;
 
+    }
+
+    public char getBoardOccupant(int i){
+        return 'X';
     }
 
 

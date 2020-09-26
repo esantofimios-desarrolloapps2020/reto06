@@ -6,11 +6,13 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -25,35 +27,26 @@ public class MainActivity extends AppCompatActivity {
     private TicTacToeGame mGame;
     private Button mBoardButtons[];
     private TextView mInfoTextView;
+    private BoardView mBoardView;
+    MediaPlayer mHumanMediaPlayer;
+    MediaPlayer mComputerMediaPlayer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mBoardButtons = new Button[TicTacToeGame.BOARD_SIZE];
-        mBoardButtons[0] = (Button) findViewById(R.id.btn_one);
-        mBoardButtons[1] = (Button) findViewById(R.id.btn_two);
-        mBoardButtons[2] = (Button) findViewById(R.id.btn_three);
-        mBoardButtons[3] = (Button) findViewById(R.id.btn_four);
-        mBoardButtons[4] = (Button) findViewById(R.id.btn_five);
-        mBoardButtons[5] = (Button) findViewById(R.id.btn_six);
-        mBoardButtons[6] = (Button) findViewById(R.id.btn_seven);
-        mBoardButtons[7] = (Button) findViewById(R.id.btn_eight);
-        mBoardButtons[8] = (Button) findViewById(R.id.btn_nine);
+        mGame = new TicTacToeGame();
+        mBoardView = (BoardView) findViewById(R.id.board);
+        mBoardView.setGame(mGame);
+
+        mBoardView.setOnTouchListener(mTouchListener);
 
         mInfoTextView = (TextView) findViewById(R.id.tv_information);
 
-        mGame = new TicTacToeGame();
-        startNewGame();
-        // newGame();
     }
 
     private void startNewGame(){
         mGame.clearBoard();
-        for(int i = 0; i < mBoardButtons.length; i++){
-            mBoardButtons[i].setText("");
-            mBoardButtons[i].setEnabled(true);
-            mBoardButtons[i].setOnClickListener(new ButtonClickListener(i));
-        }
+        mBoardView.invalidate();
         mInfoTextView.setText("You go first");
     }
     private class ButtonClickListener implements View.OnClickListener{
@@ -87,16 +80,22 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-    private void setMove(char player, int location){
+    private boolean setMove(char player, int location){
+        // mHumanMediaPlayer.start();
+        if (mGame.setMove(player, location)){
+            mBoardView.invalidate();
+            return true;
+        }
+        return false;
         //mGame.setMove(player, location);
-        mBoardButtons[location].setEnabled(false);
+        /*mBoardButtons[location].setEnabled(false);
         mBoardButtons[location].setText(String.valueOf(player));
         if(player == TicTacToeGame.HUMAN_PLAYER){
             mBoardButtons[location].setTextColor(Color.rgb(0, 200, 0));
         }
         else{
             mBoardButtons[location].setTextColor(Color.rgb(200, 0, 0));
-        }
+        }*/
     }
 
     @Override
@@ -189,6 +188,37 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }*/
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+        mHumanMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.drop_message_alert);
+        mComputerMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.bubble_short);
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        mHumanMediaPlayer.release();
+        mComputerMediaPlayer.release();
+    }
+
+    // Listen for touches the board
+    private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            int col = (int) motionEvent.getX() / mBoardView.getBoardCellWidth();
+            int row = (int) motionEvent.getY() / mBoardView.getBoardCellHeight();
+            int pos = row * 3 + col;
+            // pending to add !mGameOver &&
+            if(setMove(TicTacToeGame.HUMAN_PLAYER, pos)){
+
+            }
+            return false;
+        }
+    };
+
 
 
 }
