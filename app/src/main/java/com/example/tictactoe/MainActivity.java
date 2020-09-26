@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         mGame = new TicTacToeGame();
         startNewGame();
-        newGame();
+        // newGame();
     }
 
     private void startNewGame(){
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     private void setMove(char player, int location){
-        mGame.setMove(player, location);
+        //mGame.setMove(player, location);
         mBoardButtons[location].setEnabled(false);
         mBoardButtons[location].setText(String.valueOf(player));
         if(player == TicTacToeGame.HUMAN_PLAYER){
@@ -139,19 +139,48 @@ public class MainActivity extends AppCompatActivity {
                     getResources().getString(R.string.difficulty_harder),
                     getResources().getString(R.string.difficulty_expert)
                 };
+                final int selected = 0;
+
             builder.setSingleChoiceItems(levels, selected, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     dialogInterface.dismiss();
-                    Toast.makeText(getApplicationContext(), levels[i], Toast.LENGTH_SHORT).show();
+                    TicTacToeGame.DifficultyLevel mDifficultyLevel;
+                    if (levels[i].equals("Easy")){
+                        mDifficultyLevel = TicTacToeGame.DifficultyLevel.Easy;
+                        mGame.setmDifficultyLevel(mDifficultyLevel);
+                    }
+                    if (levels[i].equals("Harder")){
+                        mDifficultyLevel = TicTacToeGame.DifficultyLevel.Harder;
+                        mGame.setmDifficultyLevel(mDifficultyLevel);
+                    }
+                    if (levels[i].equals("Expert")){
+                        mDifficultyLevel = TicTacToeGame.DifficultyLevel.Expert;
+                        mGame.setmDifficultyLevel(mDifficultyLevel);
+                    }
+                    Toast.makeText(getApplicationContext(), mGame.getmDifficultyLevel().toString(), Toast.LENGTH_SHORT).show();
                 }
             });
-            dialog = builder.create();
+                dialog = builder.create();
+                break;
+
+            case DIALOG_QUIT_ID:
+                builder.setMessage(R.string.quit_question)
+                        .setCancelable(false)
+                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                MainActivity.this.finish();
+                            }
+                        })
+                        .setNegativeButton(R.string.no, null);
+                dialog = builder.create();
+                break;
         }
         return dialog;
     }
 
-    public void newGame(){
+    /*public void newGame(){
         Button newgame = (Button) findViewById(R.id.btn_start);
         newgame.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
                 startNewGame();
             }
         });
-    }
+    }*/
 
 
 }

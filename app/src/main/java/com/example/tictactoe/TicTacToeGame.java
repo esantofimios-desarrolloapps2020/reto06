@@ -40,8 +40,29 @@ public class TicTacToeGame {
     }
 
     public void setMove(char player, int location){
+
         Log.i("Details","Click");
 
+    }
+
+    public int getBlockingMove(Button mBoardButtons[]){
+        // See if there's a move O can make to block X from winning
+
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            if (!mBoardButtons[i].getText().equals(String.valueOf(HUMAN_PLAYER)) &&
+                    !mBoardButtons[i].getText().equals(String.valueOf(COMPUTER_PLAYER))) {
+                String curr = (String) mBoardButtons[i].getText();
+                mBoardButtons[i].setText(String.valueOf(HUMAN_PLAYER));
+                if (checkForWinner(mBoardButtons) == 2) {
+                    // mBoardButtons[i].setText(String.valueOf(COMPUTER_PLAYER));
+                    System.out.println("Computer is moving to " + (i + 1));
+                    return i;
+                }
+                else
+                    mBoardButtons[i].setText(curr);
+            }
+        }
+        return -1;
     }
 
     public int getRandomMove(Button mBoardButtons[]){
@@ -50,7 +71,12 @@ public class TicTacToeGame {
     }
 
     public int getWinningMove(Button mBoardButtons[]){
+        //TODO
+        /**
+         * Return the best move for the computer to make
+         */
         int move;
+
         // First see if there's a move O can make to win
         for (int i = 0; i < BOARD_SIZE; i++) {
             if (!mBoardButtons[i].getText().equals(String.valueOf(HUMAN_PLAYER)) &&
@@ -101,21 +127,23 @@ public class TicTacToeGame {
          * Return the best move for the computer to make
          */
         int move = -1;
-
-        if(mDifficultyLevel == DifficultyLevel.Easy)
+        Log.i("level", String.valueOf(getmDifficultyLevel()));
+        if(getmDifficultyLevel() == DifficultyLevel.Easy)
             move = getRandomMove(mBoardButtons);
-        else if(mDifficultyLevel == DifficultyLevel.Harder){
+        else if(getmDifficultyLevel() == DifficultyLevel.Harder){
             move = getWinningMove(mBoardButtons);
             if (move == -1)
-                move = getRandomMove(mBoardButtons);
+                return getRandomMove(mBoardButtons);
             }
-            else if(mDifficultyLevel == DifficultyLevel.Expert){
+            else if(getmDifficultyLevel() == DifficultyLevel.Expert){
                 move = getWinningMove(mBoardButtons);
-                //if (move == -1){
-                //    move = getBlockingMove();
-                if (move == -1){
-                    move = getRandomMove(mBoardButtons);
-            }
+                /*if (move == -1)
+                    Log.i("level", "getBlockingMove");
+                    move = getBlockingMove(mBoardButtons);
+                if (move == -1)
+                    Log.i("level", "getRandomMove");
+                    return getRandomMove(mBoardButtons);*/
+
         }
             return move;
     }
