@@ -4,10 +4,8 @@
         android:id= "@+id/new_game"
         android:title="New game"
         android:icon="@drawable/ic_play_game_background"/>
-    <item
-        android:id= "@+id/ai_difficulty"
-        android:title="Difficulty"
-        android:icon="@drawable/ic_difficulty_background"/>
+    <item android:id="@+id/settings"
+        android:title="@string/preferences" />
     <item
         android:id= "@+id/quit"
         android:title="Quit"

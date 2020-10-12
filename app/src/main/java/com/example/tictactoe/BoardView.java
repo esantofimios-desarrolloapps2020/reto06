@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -31,22 +32,22 @@ public class BoardView extends View {
     }
 
     public void initialize(){
-        mHumanBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_x_round);
-        mComputerBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_o_round);
+        mHumanBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_x);
+        mComputerBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_o);
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     }
 
-    public BoardView(Context context){
+    public BoardView(Context context) {
         super(context);
         initialize();
     }
 
-    public BoardView(Context context, AttributeSet attrs, int defStyle){
+    public BoardView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         initialize();
     }
 
-    public BoardView(Context context, AttributeSet attrs){
+    public BoardView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initialize();
     }
@@ -72,11 +73,11 @@ public class BoardView extends View {
         for(int i = 0; i < TicTacToeGame.BOARD_SIZE; i++){
             int col = i % 3;
             int row = i / 3;
-
-            int left = 0;
-            int top = 0;
-            int right = cellWidth;
-            int bottom = cellWidth;
+            Log.i("data", "onDraw: ");
+            int left = col * cellWidth;
+            int top = row * cellHeight;
+            int right = left + cellWidth;
+            int bottom = top + cellHeight;
 
             if(mGame != null && mGame.getBoardOccupant(i) == TicTacToeGame.HUMAN_PLAYER){
                 canvas.drawBitmap(mHumanBitmap,

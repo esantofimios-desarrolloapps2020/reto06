@@ -7,4 +7,7 @@
     <string name="quit_question">Do you want to quit?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="human_wins">You won!</string>
+    <string name="computer_wins">Android won!</string>
+    <string name="preferences">Preferences</string>
 </resources>
