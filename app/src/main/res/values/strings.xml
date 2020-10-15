@@ -10,4 +10,10 @@
     <string name="human_wins">You won!</string>
     <string name="computer_wins">Android won!</string>
     <string name="preferences">Preferences</string>
+    <string name="victory_msg">Victory message</string>
+    <string name="sound_setting">Active/Inactive</string>
+    <string name="sound">Sound</string>
+    <string name="turn_human">Your turn.</string>
+    <string name="turn_android">Android\'s turn.</string>
+    <string name="result_tie">It\'s a tie.</string>
 </resources>

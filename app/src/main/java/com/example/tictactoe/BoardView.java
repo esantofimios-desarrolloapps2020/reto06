@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import static android.content.ContentValues.TAG;
+
 public class BoardView extends View {
     public static final int GRID_WIDTH = 6;
     private Bitmap mHumanBitmap;
@@ -19,23 +21,7 @@ public class BoardView extends View {
     private  Paint mPaint;
     private  TicTacToeGame mGame;
 
-    public void setGame(TicTacToeGame game){
-        mGame = game;
-    }
 
-    public int getBoardCellWidth(){
-        return getWidth() / 3;
-    }
-
-    public int getBoardCellHeight(){
-        return getHeight() / 3;
-    }
-
-    public void initialize(){
-        mHumanBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_x);
-        mComputerBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_o);
-        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    }
 
     public BoardView(Context context) {
         super(context);
@@ -52,8 +38,21 @@ public class BoardView extends View {
         initialize();
     }
 
+    public void initialize(){
+        mHumanBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_x);
+        mComputerBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_o);
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
+    }
+
+    public void setGame(TicTacToeGame game){
+        mGame = game;
+    }
+
+
     @Override
     protected void onDraw(Canvas canvas) {
+        Log.i(TAG, "onDraw: button ");
         super.onDraw(canvas);
 
         int boardWidth = getWidth();
@@ -93,6 +92,13 @@ public class BoardView extends View {
         }
     }
 
+    public int getBoardCellWidth(){
+        return getWidth() / 3;
+    }
+
+    public int getBoardCellHeight(){
+        return getHeight() / 3;
+    }
 
 
 }
