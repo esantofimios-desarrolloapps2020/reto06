@@ -197,7 +197,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                     else if (winner == 2) {
                         mGameOver=true;
-                        mInfoTextView.setText(R.string.human_wins);
+                        String defaultMessage = getResources().getString(R.string.human_wins);
+                        mInfoTextView.setText(mPrefs.getString("victory_message", defaultMessage));
                     }
                     else {
                         mGameOver=true;
@@ -243,4 +244,3 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
-

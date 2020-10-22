@@ -39,11 +39,11 @@ public class Settings extends PreferenceActivity {
                 });
 
         final EditTextPreference victoryMessagePref = (EditTextPreference) findPreference("victory_message");
-        SharedPreferences victoryMessage = getSharedPreferences("changes", Context.MODE_PRIVATE);
-        victoryMessagePref.setText(victoryMessage.getString("victory_message", "0"));
+        /*SharedPreferences victoryMessage = getSharedPreferences("changes", Context.MODE_PRIVATE);
+        victoryMessagePref.setText(victoryMessage.getString("victory_message", "0"));*/
 
 
-        /*String victoryMessage = prefs.getString("victory_message",
+        String victoryMessage = prefs.getString("victory_message",
                 getResources().getString(R.string.human_wins));
         victoryMessagePref.setSummary(victoryMessage);
 
@@ -60,7 +60,7 @@ public class Settings extends PreferenceActivity {
                         ed.commit();
                         return true;
                     }
-                });*/
+                });
 
     }
 
